@@ -8,6 +8,7 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
+  Image,
 } from "@chakra-ui/core";
 import React from "react";
 import { useMessages } from "hooks";
@@ -17,7 +18,11 @@ import { RiGhostLine } from "react-icons/ri";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { useUser } from "services/firebase/useUser";
+import { useFireAuth } from "hooks";
+import * as firebase from "firebase/app";
+
 export const ChatRoom = () => {
+  const currentUser = useFireAuth(firebase.auth());
   const {
     messages,
     onChangeFormValue,
@@ -45,7 +50,17 @@ export const ChatRoom = () => {
         alignItems="center"
         px="1em"
       >
-        <Heading fontSize="15px">SIMPLE WEB CHAT</Heading>
+        <Flex alignItems="center">
+          <Image
+            borderRadius="full"
+            boxSize="30px"
+            src={currentUser.currentUser.photoURL}
+            mr="1em"
+          />
+          <Heading fontSize="15px">
+            {currentUser.currentUser.displayName}
+          </Heading>
+        </Flex>
         <Flex>
           <IconButton
             _hover={{ bg: "#edf2f72e" }}
