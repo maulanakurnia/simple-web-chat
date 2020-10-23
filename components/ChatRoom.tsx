@@ -18,11 +18,11 @@ import { RiGhostLine } from "react-icons/ri";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { RiSendPlaneLine } from "react-icons/ri";
 import { useUser } from "services/firebase/useUser";
-import { useFireAuth } from "hooks";
-import * as firebase from "firebase/app";
+import { getUserFromCookie } from "services/firebase/userCookies";
 
 export const ChatRoom = () => {
-  const currentUser = useFireAuth(firebase.auth());
+  const cookie = getUserFromCookie();
+  const url = cookie.photoURL;
   const {
     messages,
     onChangeFormValue,
@@ -51,15 +51,11 @@ export const ChatRoom = () => {
         px="1em"
       >
         <Flex alignItems="center">
-          <Image
-            borderRadius="full"
-            boxSize="30px"
-            src={currentUser.currentUser.photoURL}
-            mr="1em"
+          <img
+            className="userFoto"
+            src={url}
           />
-          <Heading fontSize="15px">
-            {currentUser.currentUser.displayName}
-          </Heading>
+          <Heading fontSize="15px">{cookie.displayName}</Heading>
         </Flex>
         <Flex>
           <IconButton

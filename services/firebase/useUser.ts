@@ -14,7 +14,6 @@ initFirebase()
 const useUser = () => {
   const [user, setUser] = useState(undefined)
   const router = useRouter()
-
   const logout = async () => {
     return firebase
       .auth()
