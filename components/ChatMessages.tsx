@@ -34,7 +34,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           </Text>
         )}
         <Text>{text}</Text>
-        <Box textAlign="end" fontSize="12px" mt="-1em">
+        <Box textAlign="end" fontSize="12px">
           <Moment className="datetime" format="HH:mm">
             {createdAt}
           </Moment>

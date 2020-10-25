@@ -8,7 +8,6 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-  Image,
 } from "@chakra-ui/core";
 import React from "react";
 import { useMessages } from "hooks";
@@ -22,7 +21,6 @@ import { getUserFromCookie } from "services/firebase/userCookies";
 
 export const ChatRoom = () => {
   const cookie = getUserFromCookie();
-  const url = cookie.photoURL;
   const {
     messages,
     onChangeFormValue,
@@ -37,6 +35,12 @@ export const ChatRoom = () => {
     dummy?.current?.scrollIntoView({ behavior: "smooth" });
   }, [submitMessage]);
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      onSubmitMesage();
+    }
+  };
   return (
     <Box w="100%" as="section">
       <Box
@@ -51,10 +55,7 @@ export const ChatRoom = () => {
         px="1em"
       >
         <Flex alignItems="center">
-          <img
-            className="userFoto"
-            src={url}
-          />
+          <img className="userFoto" src={cookie.photoURL} />
           <Heading fontSize="15px">{cookie.displayName}</Heading>
         </Flex>
         <Flex>
@@ -62,7 +63,6 @@ export const ChatRoom = () => {
             _hover={{ bg: "#edf2f72e" }}
             _focus={{ outline: "none", bg: "#edf2f72e" }}
             aria-label="toggle mode"
-            display={["none", "flex"]}
             icon={
               colorMode === "light" ? (
                 <FiSun fill="#000" color="#000" />
@@ -135,6 +135,7 @@ export const ChatRoom = () => {
           placeholder="type a massage..."
           onChange={onChangeFormValue}
           value={currentFormValue}
+          onKeyDown={handleKeyDown}
         />
         <Button
           _focus={{ outline: "none" }}
